@@ -11,11 +11,12 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Typography from '@material-ui/core/Typography'
 import Toolbar from '@material-ui/core/Toolbar'
+import { Button } from '@material-ui/core';
 
 import Home from './Home'
 import Donate from './Donate'
 import ViewDonations from './ViewDonations'
-import { Button } from '@material-ui/core';
+import AdminLogin from './AdminLogin';
 
 
 
@@ -73,10 +74,10 @@ export default class App extends Component
                     <AppBar>
                         <Toolbar style = {{display : 'flex', flexFlow : 'row nowrap', justifyContent : "space-between"}}>
                         <IconButton onClick = {this.handleClick.bind(this)}>
-                                <MenuIcon />
+                            <MenuIcon />
                             </IconButton>
                             <Typography variant = 'title' color = 'default'>Aid The Cause 2018</Typography>
-                            <Button>Login</Button>
+                            <Button href='/login'></Button>
                         </Toolbar>
                     </AppBar>
                     <Drawer open = {this.state.open} onClose = {this.handleClose.bind(this)}>
@@ -87,6 +88,7 @@ export default class App extends Component
                             <Route exact path = '/' component = {Home}/>
                             <Route path = '/donate' component = {Donate}/>
                             <Route path = '/view-donations' component = {ViewDonations} />
+                            <Route path = '/login' component = {AdminLogin} />
                         </Switch>
                     </div>
                 </div>
