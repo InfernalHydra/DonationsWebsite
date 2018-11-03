@@ -77,7 +77,7 @@ export default class App extends Component
                             <MenuIcon />
                             </IconButton>
                             <Typography variant = 'title' color = 'default'>Aid The Cause 2018</Typography>
-                            <Button href='/login'></Button>
+                            <Button href='/login'>Admin</Button>
                         </Toolbar>
                     </AppBar>
                     <Drawer open = {this.state.open} onClose = {this.handleClose.bind(this)}>

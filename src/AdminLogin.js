@@ -1,9 +1,27 @@
 import React, { Component } from "react";
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import { Meteor } from "meteor/meteor";
 
 export default class AdminLogin extends Component
 {
+    constructor(props)
+    {
+        super(props);
+        this.state = {
+            data : ""
+        };
+    }
+    handleChange(e)
+    {
+        // console.log(e.target.value);
+        this.setState({data : e.target.value});
+    }
+    handleSubmit()
+    {
+        //console.log(this.state.data);
+        Meteor.call('users.validateUser', Meteor.userId(), this.state.data); 
+    }
     render()
     {
         return(
@@ -15,9 +33,10 @@ export default class AdminLogin extends Component
                         label = "Admin Key"
                         step = 'any'
                         placeholder = ''
+                        onChange = {this.handleChange.bind(this)}
                         fullWidth
                     ></TextField>
-                    <Button style = {{marginTop : '30px'}} variant="contained">Submit</Button>
+                    <Button style = {{marginTop : '30px'}} variant="contained" onClick = {this.handleSubmit.bind(this)}>Submit</Button>
             </div>
         );
     }
