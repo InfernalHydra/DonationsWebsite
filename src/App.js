@@ -19,6 +19,8 @@ import Donate from './Donate'
 import ViewDonations from './ViewDonations'
 import AdminLogin from './AdminLogin';
 import ManageActs from'./admin/ManageActs'
+import ManageDonations from './admin/ManageDonations'
+import Display from './admin/Display'
 
 
 
@@ -49,8 +51,6 @@ class App extends Component
         {
             return (<Route {...rest} render={props => (<Component {...props} />)}/>);
         }
-        var {currUser} = this.props;
-        console.log(currUser);
         return (
             <Route
             {...rest}
@@ -94,9 +94,9 @@ class App extends Component
                     <List>
                         <div onClick = {this.handleClose.bind(this)}>
                         <ListItem button = {true} component = {NavLink} exact to = '/'>Home</ListItem>
-                        <ListItem button = {true} component = {NavLink} to = '/admin/'>Manage Acts</ListItem>
-                        <ListItem button = {true} component = {NavLink} to = '/view-donations'>Manage Donations</ListItem>
-                        <ListItem button = {true} component = {NavLink} to = '/view-donations'>Display Current Act</ListItem>
+                        <ListItem button = {true} component = {NavLink} to = '/admin/manage-acts'>Manage Acts</ListItem>
+                        <ListItem button = {true} component = {NavLink} to = '/admin/manage-donations'>Manage Donations</ListItem>
+                        <ListItem button = {true} component = {NavLink} to = '/admin/display'>Display Current Act</ListItem>
                         </div>
                     </List>
                 );
@@ -141,7 +141,9 @@ class App extends Component
                             <Route path = '/donate' component = {Donate}/>
                             <Route path = '/view-donations' component = {ViewDonations} />
                             <Route path = '/login' component = {AdminLogin} />
-                            <this.PrivateRoute path = "/admin/manage-acts" component = {ManageActs}/>
+                            <this.PrivateRoute path = '/admin/manage-acts' component = {ManageActs}/>
+                            <this.PrivateRoute path = '/admin/manage-donations' component = {ManageDonations}/>
+                            <this.PrivateRoute path = '/admin/display' component = {Display}/>
                         </Switch>
                     </div>
                 </div>
