@@ -35,6 +35,16 @@ Meteor.methods({
     'acts.stopCurrentAct'()
     {
         let currActID = Acts.findOne({status : "In Progress"})._id;
-        Acts.update({_id : currActID} , {$set : {status : "Completed"}});
-    }
+        Acts.update({_id : currActID} , {$set : {status : "Ended"}});
+    },
+    'acts.startBids'()
+    {
+        let prevActID = Acts.findOne({status : "Ended"})._id;
+        Acts.update({_id: prevActID}, {$set : {status : "Bidding"}});
+    },
+    'acts.stopBids'()
+    {
+        let prevActID = Acts.findOne({status : "Bidding"})._id;
+        Acts.update({_id: prevActID}, {$set : {status : "Completed"}});
+    },
 });

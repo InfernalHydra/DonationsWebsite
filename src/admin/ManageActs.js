@@ -35,6 +35,14 @@ export default class ManageActs extends Component
     {
         Meteor.call('acts.startNextAct');
     }
+    handleStartBids()
+    {
+        Meteor.call('acts.startBids');
+    }
+    handleStopBids()
+    {
+        Meteor.call('acts.stopBids');
+    }
     render()
     {
         return(
@@ -60,9 +68,10 @@ export default class ManageActs extends Component
                         onChange = {this.handleAuthorChange.bind(this)}
                     ></TextField>
                     <Button style = {{marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleSubmit.bind(this)}>Add</Button>
-
+                    <Button style = {{float : 'right', marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStopBids.bind(this)}>Close Bidding</Button>
+                    <Button style = {{float : 'right', marginLeft: '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStartBids.bind(this)}>Open Bidding</Button>
                     <Button style = {{float : 'right', marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStop.bind(this)}>Stop Current Act</Button>
-                    <Button style = {{float : 'right'}} variant = "contained" color = 'secondary' onClick = {this.handleStart.bind(this)}>Start Next Act</Button>
+                    <Button style = {{float : 'right'}} variant = "contained" color = 'secondary' onClick = {this.handleStart.bind(this)}>Start Next Act</Button>   
                     <ActList />
                 </div>
             </div>
