@@ -47,4 +47,24 @@ Meteor.methods({
         let prevActID = Acts.findOne({status : "Bidding"})._id;
         Acts.update({_id: prevActID}, {$set : {status : "Completed"}});
     },
+    'acts.bid'(donator, amount)
+    {
+        check(donator, String);
+        check(amount, Number);
+        //console.log(donatorID);
+        //console.log(donator);
+        //console.log(amount);
+        let currAct = Acts.findOne({status : 'Bidding'});
+        //console.log(currAct);
+        let currActID = currAct._id;
+        let currHighestBid = currAct.amount;
+        if(amount > currHighestBid)
+        {
+            Acts.update({_id : currActID}, {$set : {amount, donator, donatorID}});
+        }
+        else
+        {
+            throw new Meteor.Error('not-high-enough', "The current amount bid does not exceed the current highest bid");
+        }
+    },
 });

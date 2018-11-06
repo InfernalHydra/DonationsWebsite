@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
+import { Meteor } from 'meteor/meteor';
 
 export default class Donate extends Component
 {
@@ -21,18 +22,20 @@ export default class Donate extends Component
 
     handleNameChange(e)
     {
-        console.log(e.target.value);
+        //console.log(e.target.value);
+        this.setState({name : e.target.value});
     }
     handleValueChange(e)
     {
         let numberExp = new RegExp('\\d+');
         let moneyExp = new RegExp('\\d+.\\d{2}')
-        console.log(e.target.value);
-        console.log(moneyExp.test(e.target.value));
-        console.log(numberExp.test(e.target.value));
+        //console.log(e.target.value);
+        //console.log(moneyExp.test(e.target.value));
+        //console.log(numberExp.test(e.target.value));
         if(moneyExp.test(e.target.value) || numberExp.test(e.target.value))
         {
             this.setState({errorTextValue : ""});
+            this.setState({donationAmount : parseFloat(e.target.value)});
         }
         else if(e.target.value === "")
         {
@@ -54,11 +57,11 @@ export default class Donate extends Component
         {
             alert("Please accept the terms and services");
         }
-        if(this.state.errorTextName)
+        else if(this.state.errorTextName || this.state.errorTextValue)
         {
-
+            alert("Please fix any errors before submission")
         }
-
+        Meteor.call('acts.bid', Meteor.userId(), this.state.name, this.state.donationAmount)
     }
     render()
     {

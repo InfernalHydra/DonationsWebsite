@@ -25,23 +25,23 @@ export default class ManageActs extends Component
     }
     handleSubmit()
     {
-        Meteor.call('acts.addAct', this.state.title, this.state.author);
+        Meteor.call('acts.addAct', Meteor.userId(), this.state.title, this.state.author);
     }
     handleStop()
     {
-        Meteor.call('acts.stopCurrentAct');
+        Meteor.call('acts.stopCurrentAct', Meteor.userId());
     }
     handleStart()
     {
-        Meteor.call('acts.startNextAct');
+        Meteor.call('acts.startNextAct', Meteor.userId());
     }
     handleStartBids()
     {
-        Meteor.call('acts.startBids');
+        Meteor.call('acts.startBids', Meteor.userId());
     }
     handleStopBids()
     {
-        Meteor.call('acts.stopBids');
+        Meteor.call('acts.stopBids', Meteor.userId());
     }
     render()
     {
@@ -50,28 +50,33 @@ export default class ManageActs extends Component
                 <h1>Manage Acts</h1>
                 <h2>Insert Act</h2>
                 <div id = 'form-wrapper'>
-                    <TextField
-                        style = {{width : '250px'}}
-                        id = 'title'
-                        label = "Title"
-                        type = 'text'
-                        error = {this.state.errorTextTitle !== "" ? true : false}
-                        helperText = {this.state.errorTextTitle}
-                        onChange = {this.handleTitleChange.bind(this)}
-                    ></TextField>
-                    <TextField
-                        style = {{width : '250px', marginLeft : '30px'}}
-                        id = 'author'
-                        label = "Performers"
-                        error = {this.state.errorTextAuthor !== "" ? true : false}
-                        helperText = {this.state.errorTextAuthor}
-                        onChange = {this.handleAuthorChange.bind(this)}
-                    ></TextField>
-                    <Button style = {{marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleSubmit.bind(this)}>Add</Button>
-                    <Button style = {{float : 'right', marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStopBids.bind(this)}>Close Bidding</Button>
-                    <Button style = {{float : 'right', marginLeft: '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStartBids.bind(this)}>Open Bidding</Button>
-                    <Button style = {{float : 'right', marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStop.bind(this)}>Stop Current Act</Button>
-                    <Button style = {{float : 'right'}} variant = "contained" color = 'secondary' onClick = {this.handleStart.bind(this)}>Start Next Act</Button>   
+                    <div style = {{display : 'inline-block'}} id = 'form'>
+                        <TextField
+                            style = {{width : '250px'}}
+                            id = 'title'
+                            label = "Title"
+                            type = 'text'
+                            error = {this.state.errorTextTitle !== "" ? true : false}
+                            helperText = {this.state.errorTextTitle}
+                            onChange = {this.handleTitleChange.bind(this)}
+                        ></TextField>
+                        <TextField
+                            style = {{width : '250px', marginLeft : '30px'}}
+                            id = 'author'
+                            label = "Performers"
+                            error = {this.state.errorTextAuthor !== "" ? true : false}
+                            helperText = {this.state.errorTextAuthor}
+                            onChange = {this.handleAuthorChange.bind(this)}
+                        ></TextField>
+                        <Button style = {{marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleSubmit.bind(this)}>Add</Button>
+                    </div>
+                    <div style = {{display: 'inline-block'}} id = 'button-container'>
+                        <Button style = {{marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStart.bind(this)}>Start Next Act</Button>
+                        <Button style = {{marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStop.bind(this)}>Stop Current Act</Button>
+                        <Button style = {{marginLeft: '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStartBids.bind(this)}>Open Bidding</Button>
+                        <Button style = {{marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStopBids.bind(this)}>Close Bidding</Button>
+                    </div>
+                       
                     <ActList />
                 </div>
             </div>
