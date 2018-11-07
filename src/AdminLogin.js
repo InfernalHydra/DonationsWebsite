@@ -22,11 +22,20 @@ export default class AdminLogin extends Component
     handleSubmit()
     {
         //console.log(this.state.data);
-        Meteor.call('users.validateUser', this.state.data); 
+        Meteor.call('users.validateUser', this.state.data, (err) =>{
+            if(err)
+            {
+                alert(err);
+            }
+            else
+            {
+                this.setState({success : true})
+            }
+        }); 
     }
     render()
     {
-        if(!Meteor.userId())
+        if(!Meteor.userId() || this.state.success)
         {
             return <Redirect to = '/'/>
         }

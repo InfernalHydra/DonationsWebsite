@@ -24,9 +24,6 @@ class ActList extends Component
                             <TableRow>
                                 <TableCell>Title</TableCell>
                                 <TableCell>Author</TableCell>
-                                <TableCell>Donation Amount</TableCell>
-                                <TableCell>Donation Author</TableCell>
-                                <TableCell>Donation Author's ID</TableCell>
                                 <TableCell>Status</TableCell>
                             </TableRow>
                         </TableHead>
@@ -36,9 +33,6 @@ class ActList extends Component
                                     <TableRow key = {index}>
                                         <TableCell component = "th" scope = "row">{row.name}</TableCell>
                                         <TableCell>{row.author}</TableCell>
-                                        <TableCell>{row.amount}</TableCell>
-                                        <TableCell>{row.donator}</TableCell>
-                                        <TableCell>{row.donatorID}</TableCell>
                                         <TableCell>{row.status}</TableCell>
                                     </TableRow>
                                 );

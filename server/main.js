@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import '../src/api/Users';
-import '../src/api/Acts'
+import '../src/api/Acts';
+import '../src/api/Bids';
 
 Meteor.startup(() => {
   ServiceConfiguration.configurations.remove({

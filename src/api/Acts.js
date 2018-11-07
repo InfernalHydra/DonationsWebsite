@@ -33,7 +33,7 @@ Meteor.methods({
         check(name, String);
         check(author, String);
         //console.log('asdfdsafsa');
-        Acts.insert({name, author, amount : 0, donator : "", donatorID: "", status : "Scheduled"});
+        Acts.insert({name, author, status : "Scheduled"});
     },
     'acts.startNextAct'()
     {

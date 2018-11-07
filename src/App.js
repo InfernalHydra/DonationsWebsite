@@ -107,6 +107,8 @@ class App extends Component
                         <ListItem button = {true} component = {NavLink} to = '/admin/manage-acts'>Manage Acts</ListItem>
                         <ListItem button = {true} component = {NavLink} to = '/admin/manage-donations'>Manage Donations</ListItem>
                         <ListItem button = {true} component = {NavLink} to = '/admin/display'>Display Current Act</ListItem>
+                        <ListItem button = {true} component = {NavLink} to = '/donate'>Donate</ListItem>
+                        <ListItem button = {true} component = {NavLink} to = '/view-donations'>View Your Donations</ListItem>
                         </div>
                     </List>
                 );

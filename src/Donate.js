@@ -1,30 +1,24 @@
 import React, {Component} from 'react'
-
+import {withTracker} from 'meteor/react-meteor-data';
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
 import { Meteor } from 'meteor/meteor';
 import {Redirect} from 'react-router';
+import { Acts } from './api/Acts';
 
-export default class Donate extends Component
+class Donate extends Component
 {
     constructor(props)
     {
         super(props);
         this.state = {
-            name : "",
             donationAmount : 0,
-            errorTextName : '',
             errorTextValue : '',
             TOSAccepted: false,
+            success : true
         }
-    }
-
-    handleNameChange(e)
-    {
-        //console.log(e.target.value);
-        this.setState({name : e.target.value});
     }
     handleValueChange(e)
     {
@@ -58,11 +52,24 @@ export default class Donate extends Component
         {
             alert("Please accept the terms and services");
         }
-        else if(this.state.errorTextName || this.state.errorTextValue)
+        else if(this.state.errorTextValue)
         {
-            alert("Please fix any errors before submission")
+            alert("Please fix any errors before submission");
         }
-        Meteor.call('acts.bid', Meteor.userId(), this.state.name, this.state.donationAmount)
+        else
+        {
+            Meteor.call('bids.bid', this.state.donationAmount, (err) => {
+                if(err)
+                {
+                    alert(err);
+                }
+                else
+                {
+                    alert("Donation successfully received");
+                    location.reload();
+                }
+            });
+        }
     }
     render()
     {
@@ -70,22 +77,11 @@ export default class Donate extends Component
         {
             return <Redirect to = '/'/>
         }
-
         return (
             <div style = {{width : '80%', margin : 'auto'}} id = 'form-container'>
                 <h1>Make a Donation</h1>
                     <TextField
-                        id = 'name'
-                        label = "Name"
-                        placeholder = "Leeroy Jenkins"
-                        type = 'text'
-                        fullWidth
-                        error = {this.state.errorTextName !== "" ? true : false}
-                        helperText = {this.state.errorTextName}
-                        onChange = {this.handleNameChange.bind(this)}
-                    ></TextField>
-                    <TextField
-                        style = {{marginTop : '30px'}}
+                        type = 'number'
                         id = 'donation'
                         label = "Donation Amount"
                         step = 'any'
@@ -104,3 +100,11 @@ export default class Donate extends Component
         );
     }
 }
+
+export default withTracker(() => {
+    const subscription = Meteor.subscribe('acts');
+    return {
+        isReady : subscription.ready(),
+        currAct : subscription.ready() && Acts.findOne({status : "Bidding"}),
+    };
+})(Donate);

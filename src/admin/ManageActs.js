@@ -25,23 +25,34 @@ export default class ManageActs extends Component
     }
     handleSubmit()
     {
-        Meteor.call('acts.addAct', Meteor.userId(), this.state.title, this.state.author);
+        if(!this.state.title)
+        {
+            this.setState({errorTextTitle : "You must input a title"});
+        }
+        else if(!this.state.author)
+        {
+            this.setState({errorTextAuthor : "You must input an author"});
+        }
+        else
+        {
+            Meteor.call('acts.addAct', this.state.title, this.state.author);
+        }
     }
     handleStop()
     {
-        Meteor.call('acts.stopCurrentAct', Meteor.userId());
+        Meteor.call('acts.stopCurrentAct');
     }
     handleStart()
     {
-        Meteor.call('acts.startNextAct', Meteor.userId());
+        Meteor.call('acts.startNextAct');
     }
     handleStartBids()
     {
-        Meteor.call('acts.startBids', Meteor.userId());
+        Meteor.call('acts.startBids');
     }
     handleStopBids()
     {
-        Meteor.call('acts.stopBids', Meteor.userId());
+        Meteor.call('acts.stopBids');
     }
     render()
     {
