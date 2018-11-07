@@ -5,6 +5,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
 import { Meteor } from 'meteor/meteor';
+import {Redirect} from 'react-router';
 
 export default class Donate extends Component
 {
@@ -65,6 +66,11 @@ export default class Donate extends Component
     }
     render()
     {
+        if(!Meteor.userId())
+        {
+            return <Redirect to = '/'/>
+        }
+
         return (
             <div style = {{width : '80%', margin : 'auto'}} id = 'form-container'>
                 <h1>Make a Donation</h1>

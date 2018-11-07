@@ -132,6 +132,13 @@ class App extends Component
         Meteor.logout((err) => {if(err) alert(err);});
     }
 
+    login()
+    {
+        Meteor.loginWithFacebook((err) => {
+            if(err) alert(err);
+        });
+    }
+
     render()
     {
         return(
@@ -144,7 +151,7 @@ class App extends Component
                             <MenuIcon />
                             </IconButton>
                             <Typography variant = 'title' color = 'default'>Aid The Cause 2018</Typography>
-                            {Meteor.userId() ? <Button onClick = {this.logout.bind(this)}>Logout</Button> : <Button href='/login'>Login</Button>}
+                            {Meteor.userId() ? <Button onClick = {this.logout.bind(this)}>Logout</Button> : <Button onClick = {this.login.bind(this)}>Login with Facebook</Button>}
                         </Toolbar>
                     </AppBar>
                     <Drawer open = {this.state.open} onClose = {this.handleClose.bind(this)}>
@@ -155,10 +162,10 @@ class App extends Component
                             <Route exact path = '/' component = {Home}/>
                             <Route path = '/donate' component = {Donate}/>
                             <Route path = '/view-donations' component = {ViewDonations} />
-                            <Route path = '/login' component = {AdminLogin} />
+                            <Route path = '/admin/login' component = {AdminLogin}/>
                             <this.PrivateRoute path = '/admin/manage-acts' component = {ManageActs}/>
                             <this.PrivateRoute path = '/admin/manage-donations' component = {ManageDonations}/>
-                            <this.PrivateRoute path = '/admin/display' component = {Display}/>
+                            <this.PrivateRoute path = '/admin/display' component = {Display}/>w
                         </Switch>
                     </div>
                 </div>

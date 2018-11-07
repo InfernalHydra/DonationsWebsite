@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import { Meteor } from "meteor/meteor";
+import {Redirect} from 'react-router';
 
 export default class AdminLogin extends Component
 {
@@ -9,7 +10,8 @@ export default class AdminLogin extends Component
     {
         super(props);
         this.state = {
-            data : ""
+            data : "",
+            success : false
         };
     }
     handleChange(e)
@@ -24,13 +26,15 @@ export default class AdminLogin extends Component
     }
     render()
     {
+        if(!Meteor.userId())
+        {
+            return <Redirect to = '/'/>
+        }
         return(
             <div style = {{width : '80%', margin: 'auto'}}>
-                <h1>Log in</h1>
-                <Button>
-                    Log in with Facebook
-                </Button>
+                <h1>Log in as Administrator</h1>
                 <TextField
+                        style = {{marginTop : '10px'}}
                         id = 'pass'
                         type = 'password'
                         label = "Admin Key"
@@ -38,8 +42,8 @@ export default class AdminLogin extends Component
                         placeholder = ''
                         onChange = {this.handleChange.bind(this)}
                         fullWidth
-                    ></TextField>
-                    <Button style = {{marginTop : '30px'}} variant="contained" onClick = {this.handleSubmit.bind(this)}>Submit</Button>
+                ></TextField>
+                <Button style = {{marginTop : '30px'}} variant="contained" onClick = {this.handleSubmit.bind(this)}>Submit</Button>
             </div>
         );
     }
