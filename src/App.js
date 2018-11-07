@@ -55,7 +55,7 @@ class App extends Component
             <Route
             {...rest}
             render={props =>
-                 this.props.currUser.role === 1 ? (
+                 this.props.currUser && this.props.currUser.role === 1 ? (
                 <Component {...props} />
                 ) : (
                 <Redirect
@@ -88,7 +88,17 @@ class App extends Component
         //let role = Meteor.user().role;
         if(this.props.isReady)
         {
-            if(this.props.currUser.role === 1)
+            if(this.props.currUser == null)
+            {
+                return(
+                    <List>
+                        <div onClick = {this.handleClose.bind(this)}>
+                            <ListItem button = {true} component = {NavLink} exact to = '/'>Home</ListItem>
+                        </div>
+                    </List>
+                );
+            }
+            if(this.props.currUser && this.props.currUser.role === 1)
             {
                 return(
                     <List>
@@ -117,6 +127,11 @@ class App extends Component
 
     }
 
+    logout()
+    {
+        Meteor.logout((err) => {if(err) alert(err);});
+    }
+
     render()
     {
         return(
@@ -125,11 +140,11 @@ class App extends Component
                 <div id = "content">
                     <AppBar>
                         <Toolbar style = {{display : 'flex', flexFlow : 'row nowrap', justifyContent : "space-between"}}>
-                        <IconButton onClick = {this.handleClick.bind(this)}>
+                            <IconButton onClick = {this.handleClick.bind(this)}>
                             <MenuIcon />
                             </IconButton>
                             <Typography variant = 'title' color = 'default'>Aid The Cause 2018</Typography>
-                            <Button href='/login'>Admin</Button>
+                            {Meteor.userId() ? <Button onClick = {this.logout.bind(this)}>Logout</Button> : <Button href='/login'>Login</Button>}
                         </Toolbar>
                     </AppBar>
                     <Drawer open = {this.state.open} onClose = {this.handleClose.bind(this)}>

@@ -5,6 +5,12 @@ import {ADMIN_KEY} from '../constants/constants'
 
 export default Users = Meteor.users;
 
+Meteor.users.deny({
+    insert() {return true;},
+    update() {return true;},
+    remove() {return true;},
+});
+
 if(Meteor.isServer)
 {
     Meteor.publish('users', () => {
@@ -13,16 +19,12 @@ if(Meteor.isServer)
 }
 
 Meteor.methods({
-    'users.validateUser'(userID, val) {
-        check(userID, String);
+    'users.validateUser'(val) {
         check(val, String);
         //console.log(ADMIN_KEY);
         if(val === ADMIN_KEY)
         {
-            //console.log('i did it');
-            //let currUser = Users.find({"_id" : userID}).fetch()[0];
-            Users.update(userID, {$set : {role : 1}});
-            //console.log(currUser);
+            Users.update(this.userId, {$set : {role : 1}});
         }
     }
 });

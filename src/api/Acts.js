@@ -10,6 +10,11 @@ export const Acts = new Mongo.Collection('acts');
 // Donation amount - integer
 // Donation author - string
 // Finished - bool
+Acts.deny({
+    insert() {return true;},
+    update() {return true;},
+    remove() {return true;},
+});
 
 if(Meteor.isServer)
 {
@@ -21,6 +26,10 @@ if(Meteor.isServer)
 Meteor.methods({
     'acts.addAct'(name, author)
     {
+        if(Meteor.user().role !== 1)
+        {
+            throw new Meteor.Error('not-authorized', "You are not an administrator");
+        }
         check(name, String);
         check(author, String);
         //console.log('asdfdsafsa');
@@ -28,43 +37,39 @@ Meteor.methods({
     },
     'acts.startNextAct'()
     {
+        if(Meteor.user().role !== 1)
+        {
+            throw new Meteor.Error('not-authorized', "You are not an administrator");
+        }
         let nextActID = Acts.findOne({status : "Scheduled"})._id;
         // console.log(nextActID);
         Acts.update({_id : nextActID}, {$set : {status : "In Progress"}});
     },
     'acts.stopCurrentAct'()
     {
+        if(Meteor.user().role !== 1)
+        {
+            throw new Meteor.Error('not-authorized', "You are not an administrator");
+        }
         let currActID = Acts.findOne({status : "In Progress"})._id;
         Acts.update({_id : currActID} , {$set : {status : "Ended"}});
     },
     'acts.startBids'()
     {
+        if(Meteor.user().role !== 1)
+        {
+            throw new Meteor.Error('not-authorized', "You are not an administrator");
+        }
         let prevActID = Acts.findOne({status : "Ended"})._id;
         Acts.update({_id: prevActID}, {$set : {status : "Bidding"}});
     },
     'acts.stopBids'()
     {
+        if(Meteor.user().role !== 1)
+        {
+            throw new Meteor.Error('not-authorized', "You are not an administrator");
+        }
         let prevActID = Acts.findOne({status : "Bidding"})._id;
         Acts.update({_id: prevActID}, {$set : {status : "Completed"}});
-    },
-    'acts.bid'(donator, amount)
-    {
-        check(donator, String);
-        check(amount, Number);
-        //console.log(donatorID);
-        //console.log(donator);
-        //console.log(amount);
-        let currAct = Acts.findOne({status : 'Bidding'});
-        //console.log(currAct);
-        let currActID = currAct._id;
-        let currHighestBid = currAct.amount;
-        if(amount > currHighestBid)
-        {
-            Acts.update({_id : currActID}, {$set : {amount, donator, donatorID}});
-        }
-        else
-        {
-            throw new Meteor.Error('not-high-enough', "The current amount bid does not exceed the current highest bid");
-        }
-    },
+    }
 });

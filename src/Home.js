@@ -11,12 +11,11 @@ class Home extends Component
         {
             return <div>loading</div>;
         }
-        console.log(this.props.currAct);
         let text = this.props.actInProgress ? "The current act is: " + this.props.currAct.name + " by " + this.props.currAct.author : "";
         return (
             <div id = "home-container" style={{width : '80%', margin: 'auto'}}>
                 <h1>Welcome to Aid the Cause 2018</h1>
-                <div>{text}</div>
+                {Meteor.userId() ? null : <div>Please log in to donate</div>}
             </div>
         );
     }

@@ -20,13 +20,16 @@ export default class AdminLogin extends Component
     handleSubmit()
     {
         //console.log(this.state.data);
-        Meteor.call('users.validateUser', Meteor.userId(), this.state.data); 
+        Meteor.call('users.validateUser', this.state.data); 
     }
     render()
     {
         return(
             <div style = {{width : '80%', margin: 'auto'}}>
-                <h1>Log into Admin Panel</h1>
+                <h1>Log in</h1>
+                <Button>
+                    Log in with Facebook
+                </Button>
                 <TextField
                         id = 'pass'
                         type = 'password'
