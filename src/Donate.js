@@ -105,6 +105,6 @@ export default withTracker(() => {
     const subscription = Meteor.subscribe('acts');
     return {
         isReady : subscription.ready(),
-        currAct : subscription.ready() && Acts.findOne({status : "Bidding"}),
+        currAct : Acts.findOne({status : "Bidding"}),
     };
 })(Donate);

@@ -25,7 +25,7 @@ export default withTracker(() => {
     const subsription = Meteor.subscribe('acts');
     return {
         isReady : subsription.ready(),
-        actInProgress : subsription.ready() && Acts.find({status : "In Progress"}).fetch().length,
-        currAct : subsription.ready() && Acts.findOne({status : "In Progress"}),
+        actInProgress : Acts.find({status : "In Progress"}).fetch().length,
+        currAct : Acts.findOne({status : "In Progress"}),
     }
 })(Home)

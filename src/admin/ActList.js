@@ -49,6 +49,6 @@ export default withTracker(() => {
     const subsription = Meteor.subscribe('acts');
     return {
         isReady : subsription.ready(),
-        donations : subsription.ready() && Acts.find({}).fetch()
+        donations : Acts.find({}).fetch()
     };
 })(ActList)

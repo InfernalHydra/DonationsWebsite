@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {withTracker} from 'meteor/react-meteor-data'
 import { Meteor } from 'meteor/meteor'
 import { Acts } from '../api/Acts'
+import BiddingLeaderboard from './BiddingLeaderboard'
 
 class Display extends Component
 {
@@ -16,6 +17,25 @@ class Display extends Component
         if(!this.props.isReady)
         {
             return <div style = {{margin : 'auto', width : '80%'}}>loading</div>
+        }
+        if(!this.props.actToDisplay)
+        {
+            return(
+                <div style = {{margin : 'auto', width : '80%', textAlign : 'center'}} >
+                        <h1 style = {{fontSize : '80px'}}>Thank you for attending</h1>
+                </div>
+            );
+        }
+        if(this.props.actToDisplay.status === "Scheduled")
+        {
+            return(
+                <div style = {{margin : 'auto', width : '80%', textAlign : 'center'}} >
+                        <h1 style = {{fontSize : '80px'}}>Up Next</h1>
+                        <h1 style = {{fontSize : '60px'}}>{this.props.actToDisplay.name}</h1>
+                        <h1>by</h1>
+                        <h1 style = {{fontSize : '60px'}}>{this.props.actToDisplay.author}</h1>
+                </div>
+            );
         }
         if(this.props.actToDisplay.status === "In Progress" || this.props.actToDisplay.status === "Ended")
         {
@@ -46,7 +66,7 @@ export default withTracker(() => {
     const subscription = Meteor.subscribe('acts');
     return {
         isReady : subscription.ready(),
-        actToDisplay : subscription.ready() && Acts.findOne({status : {$ne : "Completed"}})
+        actToDisplay : Acts.findOne({status : {$ne : "Completed"}})
         
     };
 })(Display)

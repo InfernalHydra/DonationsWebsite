@@ -20,7 +20,10 @@ if(Meteor.isServer)
     Meteor.publish('bids', () => {
         return Bids.find({});
     });
-    Meteor.publish('bids.forCurrAct')
+    Meteor.publish('bids.forCurrAct', () => {
+        let currAct = Acts.findOne({status : "Bidding"});
+        return Bids.find({actName : currAct.name});
+    });
 }
 
 Meteor.methods({
@@ -35,6 +38,6 @@ Meteor.methods({
         {
             throw new Meteor.Error('non-applicable-bid', 'There are no acts currently that can be bidded on');
         }
-        Bids.insert({name : Meteor.user().services.facebook.name, amount, actName : currAct.name});
+        Bids.insert({name : Meteor.user().services.facebook.name, amount, actName : currAct.name, date : new Date()});
     },
 });
