@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {withTracker} from 'meteor/react-meteor-data'
-import { Meteor } from 'meteor/meteor';
-import { Acts } from '../api/Acts';
+import { Meteor } from 'meteor/meteor'
+import { Acts } from '../api/Acts'
 
 class Display extends Component
 {
@@ -32,9 +32,9 @@ class Display extends Component
         {
             return(
                 <div style = {{margin : 'auto', width : '80%', textAlign : 'center'}} >
-                    <h1 style = {{fontSize : '80px'}}>Bidding</h1>
-                        <h1 style = {{fontSize : '120px'}}>{"$" + this.props.actToDisplay.amount}</h1>
+                        <h1 style = {{fontSize : '80px'}}>Bidding</h1>
                         <h1>{this.props.actToDisplay.name + " by " + this.props.actToDisplay.author}</h1>
+                        <BiddingLeaderboard />
                 </div>
             );
         }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {withTracker} from 'meteor/react-meteor-data'
-import { Meteor } from 'meteor/meteor';
-import { Acts } from './api/Acts';
+import { Meteor } from 'meteor/meteor'
+import { Acts } from './api/Acts'
 
 class Home extends Component
 {

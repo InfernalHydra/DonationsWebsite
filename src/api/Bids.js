@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor'
 import {Mongo} from 'meteor/mongo'
 import {check} from 'meteor/check'
-import {Acts} from './Acts';
+import {Acts} from './Acts'
 
 export const Bids = new Mongo.Collection('bids');
 
@@ -20,6 +20,7 @@ if(Meteor.isServer)
     Meteor.publish('bids', () => {
         return Bids.find({});
     });
+    Meteor.publish('bids.forCurrAct')
 }
 
 Meteor.methods({

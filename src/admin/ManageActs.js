@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import ActList from './ActList'
-import { TextField, Button } from '@material-ui/core';
-import { Meteor } from 'meteor/meteor';
+import { TextField, Button } from '@material-ui/core'
+import { Meteor } from 'meteor/meteor'
 
 export default class ManageActs extends Component
 {

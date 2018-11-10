@@ -9,6 +9,7 @@
     "@material-ui/core": "^3.0.3",
     "@material-ui/icons": "^3.0.1",
     "meteor-node-stubs": "^0.4.1",
+    "mup": "^1.4.5",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
     "react-router": "^4.3.1",

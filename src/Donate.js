@@ -4,9 +4,9 @@ import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
-import { Meteor } from 'meteor/meteor';
-import {Redirect} from 'react-router';
-import { Acts } from './api/Acts';
+import { Meteor } from 'meteor/meteor'
+import {Redirect} from 'react-router'
+import { Acts } from './api/Acts'
 
 class Donate extends Component
 {

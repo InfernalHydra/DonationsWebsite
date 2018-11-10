@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import { Meteor } from 'meteor/meteor';
-import {Redirect} from 'react-router';
+import { Meteor } from 'meteor/meteor'
+import {Redirect} from 'react-router'
 
 export default class ViewDonations extends Component
 {

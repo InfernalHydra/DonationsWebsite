@@ -20,7 +20,7 @@ if(Meteor.isServer)
 {
     Meteor.publish('acts', () => {
         return Acts.find({});
-    })
+    });
 }
 
 Meteor.methods({

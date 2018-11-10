@@ -6,7 +6,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import TableHead from '@material-ui/core/TableHead'
-import { Acts } from "../api/Acts";
+import { Acts } from "../api/Acts"
 
 class ActList extends Component
 {

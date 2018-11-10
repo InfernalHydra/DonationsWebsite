@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor'
 import {Mongo} from 'meteor/mongo'
 import {check} from 'meteor/check'
-import {ADMIN_KEY} from '../constants/constants'
+import {ADMIN_KEY} from '../../server/keys'
 
 export default Users = Meteor.users;
 

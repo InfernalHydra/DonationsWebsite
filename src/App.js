@@ -167,7 +167,8 @@ class App extends Component
                             <Route path = '/admin/login' component = {AdminLogin}/>
                             <this.PrivateRoute path = '/admin/manage-acts' component = {ManageActs}/>
                             <this.PrivateRoute path = '/admin/manage-donations' component = {ManageDonations}/>
-                            <this.PrivateRoute path = '/admin/display' component = {Display}/>w
+                            <this.PrivateRoute path = '/admin/display' component = {Display}/>
+                            {/* <Route path = '/' component = {NotFound}/> */}
                         </Switch>
                     </div>
                 </div>
