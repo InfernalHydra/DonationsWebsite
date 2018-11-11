@@ -24,6 +24,9 @@ if(Meteor.isServer)
         let currAct = Acts.findOne({status : "Bidding"});
         return Bids.find({actName : currAct.name});
     });
+    Meteor.publish('bids.byUser', () => {
+        return Bids.find({userID : Meteor.user()._id});
+    });
 }
 
 Meteor.methods({
@@ -34,10 +37,19 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized', 'You are not logged in');
         }
         let currAct = Acts.findOne({status : "Bidding"});
-        if(!currAct)
+        if(!currAct) 
         {
             throw new Meteor.Error('non-applicable-bid', 'There are no acts currently that can be bidded on');
         }
-        Bids.insert({name : Meteor.user().services.facebook.name, amount, actName : currAct.name, date : new Date()});
+        Bids.insert({userID : Meteor.user()._id, name : Meteor.user().services.facebook.name, amount, actName : currAct.name, date : new Date(), status : "Received"});
     },
+    'bids.update'(donationID)
+    {
+        check(donationID, String);
+        if(Meteor.user().role !== 1)
+        {
+            throw new Meteor.Error('not-authorized', "You are not an administrator");
+        }
+        Bids.update({_id : donationID}, {$set : {status : "Fufilled"}});
+    }
 });

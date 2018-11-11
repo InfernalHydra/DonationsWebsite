@@ -38,7 +38,7 @@ class BiddingLeaderboard extends Component
                                     <TableRow key = {index}>
                                         <TableCell component = "th" scope = "row">{index+1}</TableCell>
                                         <TableCell>{row.name}</TableCell>
-                                        <TableCell>{row.amount}</TableCell>
+                                        <TableCell>{"$"+row.amount}</TableCell>
                                     </TableRow>
                                 );
                             })}
@@ -54,6 +54,6 @@ export default withTracker(() => {
     const subscription = Meteor.subscribe('bids.forCurrAct');
     return {
         isReady : subscription.ready(),
-        bids : Bids.find({}, {sort : {amount : -1, date : 1}}).fetch(),
+        bids : Bids.find({sort : {amount : -1, date : 1}}).fetch(),
     };
 })(BiddingLeaderboard);

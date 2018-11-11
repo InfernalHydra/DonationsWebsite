@@ -80,7 +80,9 @@ class Donate extends Component
         return (
             <div style = {{width : '80%', margin : 'auto'}} id = 'form-container'>
                 <h1>Make a Donation</h1>
+                <div>Note: If you have already donated towards the current act, bidding again will <b>add to your previous bid</b></div>
                     <TextField
+                        style = {{marginTop : '10px'}}
                         type = 'number'
                         id = 'donation'
                         label = "Donation Amount"

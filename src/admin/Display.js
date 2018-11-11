@@ -10,7 +10,6 @@ class Display extends Component
     {
         super(props);
     }
-    //TODO: Make 2 components, 1 for during act and 1 for during bidding
     //biding is more like aggreate system
     render()
     {

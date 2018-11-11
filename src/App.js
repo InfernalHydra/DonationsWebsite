@@ -183,6 +183,6 @@ export default withTracker(() => {
     let userId = Meteor.userId();
     return {
         isReady: subsription.ready(),
-        currUser: Meteor.users.findOne({_id : userId}),
+        currUser: Meteor.user(),
     };
 })(App);

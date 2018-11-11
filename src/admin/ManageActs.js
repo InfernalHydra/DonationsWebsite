@@ -87,9 +87,9 @@ export default class ManageActs extends Component
                         <Button style = {{marginLeft: '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStartBids.bind(this)}>Open Bidding</Button>
                         <Button style = {{marginLeft : '30px'}} variant = "contained" color = 'secondary' onClick = {this.handleStopBids.bind(this)}>Close Bidding</Button>
                     </div>
-                       
-                    <ActList />
                 </div>
+                <h2>List of Acts</h2>
+                <ActList />
             </div>
         );
     }
