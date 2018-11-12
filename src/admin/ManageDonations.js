@@ -29,7 +29,7 @@ class ManageDonations extends Component
     render()
     {
         return(
-            <div id = 'donations-manager-wrapper'>
+            <div style = {{width : '80%', margin : 'auto'}} id = 'donations-manager-wrapper'>
                 <Paper>
                     <Table>
                         <TableHead>

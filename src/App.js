@@ -6,7 +6,7 @@ import {createMuiTheme} from '@material-ui/core/styles/'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import {purple} from '@material-ui/core/colors/purple'
-import Drawer from '@material-ui/core/Drawer'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Typography from '@material-ui/core/Typography'
@@ -78,6 +78,10 @@ class App extends Component
     handleClose()
     {
         this.setState({open : false});
+    }
+    handleOpen()
+    {
+        this.setState({open : true});
     }
     
     //copy pasta from React Router Documentaiton
@@ -156,9 +160,9 @@ class App extends Component
                             {Meteor.userId() ? <Button onClick = {this.logout.bind(this)}>Logout</Button> : <Button onClick = {this.login.bind(this)}>Login with Facebook</Button>}
                         </Toolbar>
                     </AppBar>
-                    <Drawer open = {this.state.open} onClose = {this.handleClose.bind(this)}>
+                    <SwipeableDrawer open = {this.state.open} onOpen = {this.handleOpen.bind(this)} onClose = {this.handleClose.bind(this)}>
                         {this.rightDrawer()}
-                    </Drawer>
+                    </SwipeableDrawer>
                     <div id = "main-content" style = {{paddingTop : '50px'}}>
                         <Switch>
                             <Route exact path = '/' component = {Home}/>
