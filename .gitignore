@@ -1,4 +1,3 @@
-.gitignore
 node_modules/
 server/keys.js
 .deploy/
