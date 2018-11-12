@@ -22,6 +22,7 @@ if(Meteor.isServer)
     });
     Meteor.publish('bids.forCurrAct', () => {
         let currAct = Acts.findOne({status : "Bidding"});
+        //console.log(Bids.find({actName : currAct.name}).fetch());
         return Bids.find({actName : currAct.name});
     });
     Meteor.publish('bids.byUser', () => {

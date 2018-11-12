@@ -21,6 +21,7 @@ class BiddingLeaderboard extends Component
         {
             return(<div>loading</div>);
         }
+        //console.log(this.props.bids);
         return (
         <div style = {{width : '80%', margin : 'auto'}} id = 'leadboard-wrapper'>
             <Paper>
@@ -54,6 +55,6 @@ export default withTracker(() => {
     const subscription = Meteor.subscribe('bids.forCurrAct');
     return {
         isReady : subscription.ready(),
-        bids : Bids.find({sort : {amount : -1, date : 1}}).fetch(),
+        bids : Bids.find({}, {sort : {amount : -1, date : 1}}).fetch(),
     };
 })(BiddingLeaderboard);
