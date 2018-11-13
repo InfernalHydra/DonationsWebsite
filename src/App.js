@@ -34,7 +34,7 @@ const muiTheme = createMuiTheme({
     }
 });
 
-
+//TODO: Mobile stuffs
 class App extends Component
 {
     constructor(props)
@@ -42,7 +42,8 @@ class App extends Component
         super(props);
         this.state = 
         {
-            open : false
+            open : false,
+            iOS : process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent),
         }
     }
     //Copy pasta from React Router Documentation
@@ -157,10 +158,10 @@ class App extends Component
                             <MenuIcon />
                             </IconButton>
                             <Typography style = {{position : 'absolute', left : '50%', top : '50%', transform : "translate(-50%, -50%)"}} variant = 'title' color = 'default'>Aid The Cause 2018</Typography>
-                            {Meteor.userId() ? <Button onClick = {this.logout.bind(this)}>Logout</Button> : <Button onClick = {this.login.bind(this)}>Login with Facebook</Button>}
+                            {Meteor.userId() ? <Button onClick = {this.logout.bind(this)}>Logout</Button> : <Button onClick = {this.login.bind(this)}>Login</Button>}
                         </Toolbar>
                     </AppBar>
-                    <SwipeableDrawer open = {this.state.open} onOpen = {this.handleOpen.bind(this)} onClose = {this.handleClose.bind(this)}>
+                    <SwipeableDrawer disableBackdropTransition={!this.state.iOS} disableDiscovery={this.state.iOS} open = {this.state.open} onOpen = {this.handleOpen.bind(this)} onClose = {this.handleClose.bind(this)}>
                         {this.rightDrawer()}
                     </SwipeableDrawer>
                     <div id = "main-content" style = {{paddingTop : '50px'}}>

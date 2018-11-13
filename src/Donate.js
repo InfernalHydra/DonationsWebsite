@@ -7,7 +7,10 @@ import Button from '@material-ui/core/Button'
 import { Meteor } from 'meteor/meteor'
 import {Redirect} from 'react-router'
 import { Acts } from './api/Acts'
+import { MenuItem } from '@material-ui/core';
 
+
+//TODO: drop down, donate to completed acts
 class Donate extends Component
 {
     constructor(props)
@@ -17,7 +20,8 @@ class Donate extends Component
             donationAmount : 0,
             errorTextValue : '',
             TOSAccepted: false,
-            success : true
+            success : true,
+            act: 0,
         }
     }
     handleValueChange(e)
@@ -58,7 +62,7 @@ class Donate extends Component
         }
         else
         {
-            Meteor.call('bids.bid', this.state.donationAmount, (err) => {
+            Meteor.call('bids.bid', this.props.listOfActs[this.state.act]._id, this.state.donationAmount, (err) => {
                 if(err)
                 {
                     alert(err);
@@ -71,16 +75,40 @@ class Donate extends Component
             });
         }
     }
+    handleChange(e)
+    {
+        //console.log(e.target.value);
+        this.setState({act : e.target.value});
+    }
     render()
     {
         if(!Meteor.userId())
         {
             return <Redirect to = '/'/>
         }
+        if(!this.props.isReady)
+        {
+            return <div>loading</div>
+        }
         return (
             <div style = {{width : '80%', margin : 'auto'}} id = 'form-container'>
                 <h1>Make a Donation</h1>
                 <div>Note: If you have already donated towards the current act, bidding again will <b>override your previous donate if the amount is greater</b></div>
+                <div>{"The act you will be donating towards is: " + this.props.currAct.name + " by " + this.props.currAct.author}</div>
+                    <div style = {{width : '100%'}}>
+                        <TextField 
+                        style = {{marginTop : '10px'}}
+                        select
+                        label="Select Act"
+                        value = {this.state.act}
+                        onChange = {this.handleChange.bind(this)}
+                        >{this.props.listOfActs.map((act, index) => {
+                            return <MenuItem key = {act._id} value = {index}>
+                                {act.name + " by " + act.author}
+                            </MenuItem>
+                        })
+                        }</TextField>
+                    </div>    
                     <TextField
                         style = {{marginTop : '10px'}}
                         type = 'number'
@@ -108,5 +136,6 @@ export default withTracker(() => {
     return {
         isReady : subscription.ready(),
         currAct : Acts.findOne({status : "Bidding"}),
+        listOfActs : Acts.find({status : {$in : ["Completed", "Bidding"]}}).fetch().reverse()
     };
 })(Donate);
