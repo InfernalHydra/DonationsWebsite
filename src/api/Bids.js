@@ -45,8 +45,12 @@ Meteor.methods({
         let possBid = Bids.findOne({userID : Meteor.user()._id, actName : currAct.name});
         if(possBid)
         {
+            if(amount < possBid.amount)
+            {
+                throw new Meteor.Error('nonapplicable-amount', 'The amount you wish to donate is lower than your previous donation');   
+            }
             let bidID = possBid._id;
-            Bids.update({_id : bidID}, {$inc : {amount : amount}}); 
+            Bids.update({_id : bidID}, {$set : {amount}}); 
         }
         else {
             Bids.insert({userID : Meteor.user()._id, name : Meteor.user().services.facebook.name, amount, actName : currAct.name, date : new Date(), status : "Received"});

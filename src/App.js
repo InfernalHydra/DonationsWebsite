@@ -156,7 +156,7 @@ class App extends Component
                             <IconButton onClick = {this.handleClick.bind(this)}>
                             <MenuIcon />
                             </IconButton>
-                            <Typography variant = 'title' color = 'default'>Aid The Cause 2018</Typography>
+                            <Typography style = {{position : 'absolute', left : '50%', top : '50%', transform : "translate(-50%, -50%)"}} variant = 'title' color = 'default'>Aid The Cause 2018</Typography>
                             {Meteor.userId() ? <Button onClick = {this.logout.bind(this)}>Logout</Button> : <Button onClick = {this.login.bind(this)}>Login with Facebook</Button>}
                         </Toolbar>
                     </AppBar>

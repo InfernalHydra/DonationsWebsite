@@ -29,40 +29,43 @@ class ManageDonations extends Component
     render()
     {
         return(
-            <div style = {{width : '80%', margin : 'auto'}} id = 'donations-manager-wrapper'>
-                <Paper>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell></TableCell>
-                                <TableCell>Act Name</TableCell>
-                                <TableCell>Name</TableCell>
-                                <TableCell>User ID</TableCell>
-                                <TableCell>Amount</TableCell>
-                                <TableCell>Status</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.props.isReady && this.props.bids.map((row, index) => {
-                                return (
-                                    <TableRow key = {index}>
-                                        <TableCell>
-                                            <IconButton onClick = {this.handleClick.bind(this, row._id)}>
-                                                <Check />
-                                            </IconButton>
-                                        </TableCell>
-                                        <TableCell component = "th" scope = "row">{row.actName}</TableCell>
-                                        <TableCell>{row.name}</TableCell>
-                                        <TableCell>{row.userID}</TableCell>
-                                        <TableCell>{row.amount}</TableCell>
-                                        <TableCell>{row.status}</TableCell>
-                                    </TableRow>
-                                );
-                            })}
+            <div style = {{width : '80%', margin : 'auto'}} id = 'donations-title-wrapper'>
+                    <h1>Manage Donations</h1>
+                    <div id = 'donations-manager-wrapper'>
+                    <Paper>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell></TableCell>
+                                    <TableCell>Act Name</TableCell>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>User ID</TableCell>
+                                    <TableCell>Amount</TableCell>
+                                    <TableCell>Status</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {this.props.isReady && this.props.bids.map((row, index) => {
+                                    return (
+                                        <TableRow key = {index}>
+                                            <TableCell>
+                                                <IconButton onClick = {this.handleClick.bind(this, row._id)}>
+                                                    <Check />
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell component = "th" scope = "row">{row.actName}</TableCell>
+                                            <TableCell>{row.name}</TableCell>
+                                            <TableCell>{row.userID}</TableCell>
+                                            <TableCell>{row.amount}</TableCell>
+                                            <TableCell>{row.status}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
 
-                        </TableBody>
-                    </Table>
-                </Paper>
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                </div>
             </div>
         );
     }
