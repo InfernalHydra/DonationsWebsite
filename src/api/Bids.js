@@ -63,7 +63,7 @@ Meteor.methods({
             throw new Meteor.Error('non-applicable-bid', 'There are no acts currently that can be bidded on');
         }
 
-        let possBid = Bids.findOne({userID : Meteor.user()._id, actName : currActBid.name});
+        let possBid = Bids.findOne({userID : Meteor.user()._id, actName : currActBid.name, status : "Received"});
         if(possBid)
         {
             if(amount < possBid.amount)
