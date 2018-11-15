@@ -34,7 +34,6 @@ const muiTheme = createMuiTheme({
     }
 });
 
-//TODO: Mobile stuffs
 class App extends Component
 {
     constructor(props)

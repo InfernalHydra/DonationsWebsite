@@ -10,7 +10,6 @@ import { Acts } from './api/Acts'
 import { MenuItem } from '@material-ui/core';
 
 
-//TODO: drop down, donate to completed acts
 class Donate extends Component
 {
     constructor(props)

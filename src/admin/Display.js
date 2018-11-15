@@ -4,7 +4,6 @@ import { Meteor } from 'meteor/meteor'
 import { Acts } from '../api/Acts'
 import BiddingLeaderboard from './BiddingLeaderboard'
 
-//TODO: Top 5, total, most recent
 class Display extends Component
 {
     constructor(props)
