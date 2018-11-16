@@ -94,7 +94,7 @@ class Donate extends Component
                 <h1>Make a Donation</h1>
                 <div>Note: If you have already donated towards the current act, bidding again will <b>override your previous donate if the amount is greater</b></div>
                 <div>If you have already donated towards the current act, bidding again will <b>put in a new donation of that amount</b></div>
-                <div>{"The act you will be donating towards is: " + this.props.currAct.name + " by " + this.props.currAct.author}</div>
+                {this.props.currAct ? <div>{"The act you will be donating towards is: " + this.props.currAct.name + " by " + this.props.currAct.author}</div> : null}
                     <div style = {{width : '100%'}}>
                         <TextField 
                         style = {{marginTop : '10px'}}

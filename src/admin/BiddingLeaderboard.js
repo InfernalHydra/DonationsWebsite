@@ -46,7 +46,7 @@ class BiddingLeaderboard extends Component
                         </TableBody>
                     </Table>
                 </Paper>
-                <h2>{"Most Recent Bid: $" + this.props.bidsRecent.amount + " by " + this.props.bidsRecent.name}</h2>
+                {this.props.bidsRecent ? <h2>{"Most Recent Bid: $" + this.props.bidsRecent.amount + " by " + this.props.bidsRecent.name}</h2> : null}
                 <h2>{"Total: $" + this.props.bidSum}</h2>
         </div>
         );
@@ -57,8 +57,8 @@ export default withTracker(() => {
     const subscription = Meteor.subscribe('bids.forCurrAct');
     return {
         isReady : subscription.ready(),
-        bids : Bids.find({}, {sort : {amount : -1, date : 1}}).fetch().slice(0,5),
-        bidsRecent: Bids.find({}).fetch().reverse()[0],
+        bids : Bids.find({status : "Fufilled"}, {sort : {amount : -1, date : 1}}).fetch().slice(0,5),
+        bidsRecent: Bids.find({status : "Fufilled"}).fetch().reverse()[0],
         bidSum : Bids.find({}).fetch().reduce((a, b) => {return a + b.amount}, 0),
     };
 })(BiddingLeaderboard);
