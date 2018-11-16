@@ -5,13 +5,13 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import {createMuiTheme} from '@material-ui/core/styles/'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import {purple} from '@material-ui/core/colors/purple'
+import {red} from '@material-ui/core/colors/red'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Typography from '@material-ui/core/Typography'
 import Toolbar from '@material-ui/core/Toolbar'
-import { Button } from '@material-ui/core';
+import { Button, ExpansionPanelSummary } from '@material-ui/core';
 import {withTracker} from 'meteor/react-meteor-data'
 
 import Home from './Home'
@@ -26,13 +26,14 @@ import Display from './admin/Display'
 
 const muiTheme = createMuiTheme({
     palette: {
-        primary: purple,
-        secondary:
-        {
-            main : '#f44336'
-        }
-    }
-});
+      primary: {
+          main: '#ef5350',
+      },
+      secondary: {
+        main: '#ec407a',
+      },
+    },
+  });
 
 class App extends Component
 {
@@ -92,43 +93,62 @@ class App extends Component
         //let role = Meteor.user().role;
         if(this.props.isReady)
         {
+            let Objs = [];
+            Objs.push(<ListItem key="home" button = {true} component = {NavLink} exact to = '/'>Home</ListItem>);
+
             if(this.props.currUser == null)
             {
-                return(
-                    <List>
-                        <div onClick = {this.handleClose.bind(this)}>
-                            <ListItem button = {true} component = {NavLink} exact to = '/'>Home</ListItem>
-                        </div>
-                    </List>
-                );
+                // return(
+                //     <List>
+                //         <div onClick = {this.handleClose.bind(this)}>
+                //             <ListItem button = {true} component = {NavLink} exact to = '/'>Home</ListItem>
+                //         </div>
+                //     </List>
+                // );
             }
             if(this.props.currUser && this.props.currUser.role === 1)
             {
-                return(
-                    <List>
-                        <div onClick = {this.handleClose.bind(this)}>
-                        <ListItem button = {true} component = {NavLink} exact to = '/'>Home</ListItem>
-                        <ListItem button = {true} component = {NavLink} to = '/admin/manage-acts'>Manage Acts</ListItem>
-                        <ListItem button = {true} component = {NavLink} to = '/admin/manage-donations'>Manage Donations</ListItem>
-                        <ListItem button = {true} component = {NavLink} to = '/admin/display'>Display Current Act</ListItem>
-                        <ListItem button = {true} component = {NavLink} to = '/donate'>Donate</ListItem>
-                        <ListItem button = {true} component = {NavLink} to = '/view-donations'>View Your Donations</ListItem>
-                        </div>
-                    </List>
-                );
+                Objs.push(<ListItem key="macts" button = {true} component = {NavLink} to = '/admin/manage-acts'>Manage Acts</ListItem>)
+                Objs.push(<ListItem key="mdon" button = {true} component = {NavLink} to = '/admin/manage-donations'>Manage Donations</ListItem>)
+                Objs.push(<ListItem key="display" button = {true} component = {NavLink} to = '/admin/display'>Display Current Act</ListItem>)
+                // return(
+                //     <List>
+                //         <div onClick = {this.handleClose.bind(this)}>
+                //         <ListItem button = {true} component = {NavLink} exact to = '/'>Home</ListItem>
+                //         <ListItem button = {true} component = {NavLink} to = '/admin/manage-acts'>Manage Acts</ListItem>
+                //         <ListItem button = {true} component = {NavLink} to = '/admin/manage-donations'>Manage Donations</ListItem>
+                //         <ListItem button = {true} component = {NavLink} to = '/admin/display'>Display Current Act</ListItem>
+                //         <ListItem button = {true} component = {NavLink} to = '/donate'>Donate</ListItem>
+                //         <ListItem button = {true} component = {NavLink} to = '/view-donations'>View Your Donations</ListItem>
+                //         </div>
+                //     </List>
+                // );
             }
-            else 
+            if (this.props.currUser)
             {
-                return(
-                    <List>
-                        <div onClick = {this.handleClose.bind(this)}>
-                        <ListItem button = {true} component = {NavLink} exact to = '/'>Home</ListItem>
-                        <ListItem button = {true} component = {NavLink} to = '/donate'>Donate</ListItem>
-                        <ListItem button = {true} component = {NavLink} to = '/view-donations'>View Your Donations</ListItem>
-                        </div>
-                    </List>
-                );
+                Objs.push(<ListItem key="don" button = {true} component = {NavLink} to = '/donate'>Donate</ListItem>)
+                Objs.push(<ListItem key="viewDon" button = {true} component = {NavLink} to = '/view-donations'>View Your Donations</ListItem>)
+                // return(
+                //     <List>
+                //         <div onClick = {this.handleClose.bind(this)}>
+                //         <ListItem button = {true} component = {NavLink} exact to = '/'>Home</ListItem>
+                //         <ListItem button = {true} component = {NavLink} to = '/donate'>Donate</ListItem>
+                //         <ListItem button = {true} component = {NavLink} to = '/view-donations'>View Your Donations</ListItem>
+                //         </div>
+                //     </List>
+                // );
             }
+            return (
+                <List>
+                    <div onClick = {this.handleClose.bind(this)}>
+                        {Objs.map((elem) => {
+                            return elem;
+                        })}
+                    </div>
+                
+                </List>
+                
+            )
         }
 
     }
@@ -152,17 +172,19 @@ class App extends Component
             <BrowserRouter>
                 <div id = "content">
                     <AppBar>
-                        <Toolbar style = {{display : 'flex', flexFlow : 'row nowrap', justifyContent : "space-between"}}>
+                        <Toolbar color = 'secondary' style = {{display : 'flex', flexFlow : 'row nowrap', justifyContent : "space-between"}}>
                             <IconButton onClick = {this.handleClick.bind(this)}>
                             <MenuIcon />
                             </IconButton>
-                            <Typography style = {{position : 'absolute', left : '50%', top : '50%', transform : "translate(-50%, -50%)"}} variant = 'title' color = 'default'>Aid The Cause 2018</Typography>
+                            <Typography style = {{position : 'absolute', left : '50%', top : '50%', transform : "translate(-50%, -50%)"}} variant = 'title' color = 'default'><div style={{color:'white'}}>Aid The Cause 2018</div></Typography>
                             {Meteor.userId() ? <Button onClick = {this.logout.bind(this)}>Logout</Button> : <Button onClick = {this.login.bind(this)}>Login</Button>}
                         </Toolbar>
                     </AppBar>
+
                     <SwipeableDrawer disableBackdropTransition={!this.state.iOS} disableDiscovery={this.state.iOS} open = {this.state.open} onOpen = {this.handleOpen.bind(this)} onClose = {this.handleClose.bind(this)}>
                         {this.rightDrawer()}
                     </SwipeableDrawer>
+
                     <div id = "main-content" style = {{paddingTop : '50px'}}>
                         <Switch>
                             <Route exact path = '/' component = {Home}/>

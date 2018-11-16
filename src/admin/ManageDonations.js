@@ -43,14 +43,13 @@ class ManageDonations extends Component
         this.setState({status:c})            
     }
     render()
-    {
-        console.log(this.props.bids)
+    {        
         return(
             <div style = {{width : '80%', margin : 'auto'}} id = 'donations-title-wrapper'>
                     <h1>Manage Donations</h1>
 
                     <div id = 'form-wrapper'>
-                        <div style = {{display : 'inline-block'}} id = 'form'>
+                        <div style = {{display : 'inline'}} id = 'form'>
                             <TextField
                                 style = {{width : '250px'}}
                                 id = 'search'
@@ -60,8 +59,9 @@ class ManageDonations extends Component
                                 helperText = {this.state.errorTextTitle}
                                 onChange = {this.handleSearchChange.bind(this)}
                             ></TextField>
+
                             <TextField 
-                            style = {{marginTop : '0px'}}
+                            style = {{width : '200px', float:"right"}}
                             select
                             label="Status"
                             value = {this.state.status}

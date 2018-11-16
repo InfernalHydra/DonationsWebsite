@@ -40,7 +40,7 @@ export default class ActLeaderboard extends Component
                                 <TableRow key = {index}>
                                     <TableCell component = "th" scope = "row">{index+1}</TableCell>
                                     <TableCell>{row._id}</TableCell>
-                                    <TableCell>{row.totalAmount}</TableCell>
+                                    <TableCell>{"$" + row.totalAmount}</TableCell>
                                 </TableRow>
                             );
                         })}
@@ -65,6 +65,7 @@ export default class ActLeaderboard extends Component
             }
             else
             {
+                console.log(res);
                 self.setState({data : res});
             }
         })

@@ -125,7 +125,7 @@ class Donate extends Component
                         <Checkbox onChange = {this.handleTOS.bind(this)} />
                         <p>By clicking this box, I agree to pay the donation amount as listed</p>
                     </div>
-                    <Button variant="contained" onClick={this.handleSubmit.bind(this)}>Submit</Button>
+                    <Button variant="contained" color ="secondary" onClick={this.handleSubmit.bind(this)}>Submit</Button>
             </div>
         );
     }
