@@ -10,7 +10,7 @@ Meteor.startup(() => {
   });
   ServiceConfiguration.configurations.insert({
     service: "facebook",
-    appId : appIdTest,
-    secret : secretTest
+    appId : appId,
+    secret : secret
 });
 });

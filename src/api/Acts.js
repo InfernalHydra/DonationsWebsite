@@ -71,5 +71,16 @@ Meteor.methods({
         }
         let prevActID = Acts.findOne({status : "Bidding"})._id;
         Acts.update({_id: prevActID}, {$set : {status : "Completed"}});
+    },
+    'acts.update'(actID, name, author)
+    {
+        check(actID, String);
+        check(actTitle, String);
+        check(name, String);
+        if(Meteor.user().role !== 1)
+        {
+            throw new Meteor.Error('not-authorized', "You are not an administrator");
+        }
+        Acts.update({_id : actID}, {$set : {name, author}});
     }
 });
