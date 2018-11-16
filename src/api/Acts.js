@@ -16,8 +16,31 @@ Acts.deny({
     remove() {return true;},
 });
 
+const LISTS_METHODS = _.pluck([
+    insert,
+    makePublic,
+    makePrivate,
+    updateName,
+    remove,
+  ], 'name');
+  
+  // Only allow 5 list operations per connection per second
+  
+  if (Meteor.isServer) {
+
+  }
+
 if(Meteor.isServer)
 {
+    DDPRateLimiter.addRule({
+        name(name) {
+          return _.contains(LISTS_METHODS, name);
+        },
+    
+        // Rate limit per connection ID
+        connectionId() { return true; }
+      }, 5, 1000);
+
     Meteor.publish('acts', () => {
         return Acts.find({});
     });
@@ -72,15 +95,24 @@ Meteor.methods({
         let prevActID = Acts.findOne({status : "Bidding"})._id;
         Acts.update({_id: prevActID}, {$set : {status : "Completed"}});
     },
-    'acts.update'(actID, name, author)
+    'acts.updateName'(actID, name)
     {
         check(actID, String);
-        check(actTitle, String);
         check(name, String);
         if(Meteor.user().role !== 1)
         {
             throw new Meteor.Error('not-authorized', "You are not an administrator");
         }
-        Acts.update({_id : actID}, {$set : {name, author}});
+        Acts.update({_id : actID}, {$set : {name}});
+    },
+    'acts.updateAuthor'(actID, author)
+    {
+        check(actID, String);
+        check(author, String);
+        if(Meteor.user().role !== 1)
+        {
+            throw new Meteor.Error('not-authorized', "You are not an administrator");
+        }
+        Acts.update({_id : actID}, {$set : {author}});
     }
 });
