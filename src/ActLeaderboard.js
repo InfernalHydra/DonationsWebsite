@@ -1,25 +1,29 @@
 import React, {Component} from 'react'
-import {withTracker} from 'meteor/react-meteor-data'
-import { Meteor } from 'meteor/meteor'
-import {BidsAggregate} from './api/Bids'
 import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import TableHead from '@material-ui/core/TableHead'
+import { Meteor } from 'meteor/meteor';
 
 
 //TODO: Sum donations per act, leaderboard
-class ActLeaderboard extends Component
+export default class ActLeaderboard extends Component
 {
     constructor(props)
     {
         super(props);
+        this.state = {
+            data : [],
+        };
     }
     render()
     {
-        console.log(this.props.bids);
+        if(this.state.data === [])
+        {
+            return <div>loading</div>;
+        }
         return (
             <Paper>
                 <Table>
@@ -31,7 +35,7 @@ class ActLeaderboard extends Component
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.props.isReady && this.props.bids.map((row, index) => {
+                        {this.state.data !== [] && this.state.data.map((row, index) => {
                             return (
                                 <TableRow key = {index}>
                                     <TableCell component = "th" scope = "row">{index+1}</TableCell>
@@ -46,12 +50,27 @@ class ActLeaderboard extends Component
         );
 
     }
-}
-
-export default withTracker(() => {
-    const subscription = Meteor.subscribe('bids.byAct');
-    return {
-        isReady : subscription.ready(),
-        bids : BidsAggregate.find({}).fetch(),
+    componentDidMount()
+    {
+        this.tick();
+        this.timer = setInterval(() => this.tick(), 5000);
     }
-})(ActLeaderboard);
+    tick()
+    {
+        var self = this;
+        Meteor.call('bids.getAggregate', (err, res) => {
+            if(err)
+            {
+                alert(err);
+            }
+            else
+            {
+                self.setState({data : res});
+            }
+        })
+    }
+    componentWillUnmount()
+    { 
+        clearInterval(this.timer);
+    }
+}

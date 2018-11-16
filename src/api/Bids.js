@@ -6,7 +6,6 @@ import {Random} from 'meteor/random'
 
 
 export const Bids = new Mongo.Collection('bids');
-export var BidsAggregate = new Mongo.Collection('bids.aggregate');
 //Bid schema
 // Amount
 // Name
@@ -30,22 +29,6 @@ if(Meteor.isServer)
     Meteor.publish('bids.byUser', () => {
         return Bids.find({userID : Meteor.user()._id});
     });
-    Meteor.publish('bids.byAct', () => {
-        let pipeline = [{
-            $project : {
-                _id : "$actName",
-                totalAmount : {$sum : "$amount"},
-                count : {$sum : 1}
-            }
-        }];
-        let foo = [];
-        foo = Bids.aggregate(pipeline, {status : "Fufilled"});
-        console.log(foo);
-        // each((bid) => {
-        //     self.added('bids.aggregate', Random.id(), {actName : bid._id, totalAmount : bid.totalAmount, count : bid.count});
-        // });
-        return BidsAggregate.find({});
-    });
 }
 
 Meteor.methods({
@@ -56,7 +39,7 @@ Meteor.methods({
         {
             throw new Meteor.Error('not-authorized', 'You are not logged in');
         }
-        console.log(donationID);
+        // console.log(donationID);
         let currActBid = Acts.findOne({_id : donationID, status : {$in : ["Completed", "Bidding"]}});
         if(!currActBid) 
         {
@@ -85,5 +68,24 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized', "You are not an administrator");
         }
         Bids.update({_id : donationID}, {$set : {status : "Fufilled"}});
+    },
+    'bids.getAggregate'()
+    {
+        let pipeline = [
+            {$match : {status : "Fufilled"}},
+            {$group : {
+                _id : "$actName",
+                totalAmount : {$sum : "$amount"},
+                count : {$sum : 1}
+            }},
+            {$sort : {totalAmount : -1}},
+        ];
+        let foo = [];
+        foo = Bids.aggregate(pipeline, {status : "Fufilled"});
+        // console.log(foo);
+        // each((bid) => {
+        //     self.added('bids.aggregate', Random.id(), {actName : bid._id, totalAmount : bid.totalAmount, count : bid.count});
+        // });
+        return foo;
     }
 });
