@@ -90,8 +90,8 @@ Meteor.methods({
             {$sort : {totalAmount : -1}},
         ];
         let foo = [];
-        //foo = Bids.aggregate(pipeline, {status : "Fufilled"});
-        // console.log(foo);
+        foo = Bids.aggregate(pipeline, {status : "Fufilled"});
+        console.log(foo);
         // each((bid) => {
         //     self.added('bids.aggregate', Random.id(), {actName : bid._id, totalAmount : bid.totalAmount, count : bid.count});
         // });
