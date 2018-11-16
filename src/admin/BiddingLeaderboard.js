@@ -59,6 +59,6 @@ export default withTracker(() => {
         isReady : subscription.ready(),
         bids : Bids.find({status : "Fufilled"}, {sort : {amount : -1, date : 1}}).fetch().slice(0,5),
         bidsRecent: Bids.find({status : "Fufilled"}).fetch().reverse()[0],  
-        bidSum : Bids.find({}).fetch().reduce((a, b) => {return a + b.amount}, 0),
+        bidSum : Bids.find({status : "Fufilled"}).fetch().reduce((a, b) => {return a + b.amount}, 0),
     };
 })(BiddingLeaderboard);

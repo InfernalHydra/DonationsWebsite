@@ -11,22 +11,25 @@ import TableHead from '@material-ui/core/TableHead'
 import Clear from '@material-ui/icons/Clear'
 import IconButton from '@material-ui/core/IconButton'
 import Check from '@material-ui/icons/Check'
+import {Session} from  'meteor/session';
+import TextField from '@material-ui/core/TextField'
+import { MenuItem } from '@material-ui/core';
 
 class ManageDonations extends Component
 {
     constructor(props)
     {
         super(props);
+        Session.set('search', '');        
         this.state = {
             currName : "",
-            errorTextTitle : "",
-            search: "",
-            status: "Received",
-            types: ["Recieved","Fufilled", "Rejected"]
+            errorTextTitle : "",            
+            types: ["Received","Fufilled", "Rejected"],
+            status: "Received"
         }
     }
     handleSearchChange(e) {
-        this.setState({search:e.target.value})
+        Session.set('search', e.target.value);        
     }
     handleClick(donationID)
     {
@@ -35,8 +38,13 @@ class ManageDonations extends Component
     handleReject(donationID) {
         Meteor.call('bids.reject', donationID);
     }
+    handleChange(e) {
+        let c = e.target.value
+        this.setState({status:c})            
+    }
     render()
     {
+        console.log(this.props.bids)
         return(
             <div style = {{width : '80%', margin : 'auto'}} id = 'donations-title-wrapper'>
                     <h1>Manage Donations</h1>
@@ -51,26 +59,28 @@ class ManageDonations extends Component
                                 error = {this.state.errorTextTitle !== "" ? true : false}
                                 helperText = {this.state.errorTextTitle}
                                 onChange = {this.handleSearchChange.bind(this)}
-                            ></TextField>                                                            
-                        </div>
-                    </div>
-
-                    <div id = 'donations-manager-wrapper'>
-                    <Paper>
-                        <TextField 
-                            style = {{marginTop : '10px'}}
+                            ></TextField>
+                            <TextField 
+                            style = {{marginTop : '0px'}}
                             select
-                            label="Select Status"
+                            label="Status"
                             value = {this.state.status}
                             onChange = {this.handleChange.bind(this)}>
 
                             {this.state.types.map((elem) => {
+
                                 return <MenuItem key = {elem} value = {elem}>
                                     {elem}
                                 </MenuItem>
                             })}
 
-                        </TextField>
+                        </TextField>                                                            
+                        </div>
+                    </div>
+                    
+                    <div id = 'donations-manager-wrapper'>
+                    <Paper>
+                        
                         <Table>
                             <TableHead>
                                 <TableRow>
@@ -84,23 +94,25 @@ class ManageDonations extends Component
                             </TableHead>
                             <TableBody>
                                 {this.props.isReady && this.props.bids.map((row, index) => {
-                                    return (
-                                        <TableRow key = {index}>
-                                            <TableCell>
-                                                <IconButton onClick = {this.handleClick.bind(this, row._id)}>
-                                                    <Check />
-                                                </IconButton>
-                                                <IconButton onClick = {this.handleReject.bind(this, row._id)}>
-                                                    <Clear />
-                                                </IconButton>
-                                            </TableCell>
-                                            <TableCell component = "th" scope = "row">{row.actName}</TableCell>
-                                            <TableCell>{row.name}</TableCell>
-                                            <TableCell>{row.userID}</TableCell>
-                                            <TableCell>{row.amount}</TableCell>
-                                            <TableCell>{row.status}</TableCell>
-                                        </TableRow>
-                                    );
+                                    if (row.status == this.state.status) {
+                                        return (
+                                            <TableRow key = {index}>
+                                                <TableCell>
+                                                    <IconButton onClick = {this.handleClick.bind(this, row._id)}>
+                                                        <Check />
+                                                    </IconButton>
+                                                    <IconButton onClick = {this.handleReject.bind(this, row._id)}>
+                                                        <Clear />
+                                                    </IconButton>
+                                                </TableCell>
+                                                <TableCell component = "th" scope = "row">{row.actName}</TableCell>
+                                                <TableCell>{row.name}</TableCell>
+                                                <TableCell>{row.userID}</TableCell>
+                                                <TableCell>{row.amount}</TableCell>
+                                                <TableCell>{row.status}</TableCell>
+                                            </TableRow>
+                                        );
+                                    }                                    
                                 })}
 
                             </TableBody>
@@ -115,10 +127,9 @@ class ManageDonations extends Component
 export default withTracker(() => {
     
     const subscription = Meteor.subscribe('bids');
-    const search = this.state.search;
+    const search = Session.get('search');        
     const query = {};
-    query.name = {$regex : '(' + search + '\\S+|' + search + ')'};
-    query.status = this.state.status;
+    query.name = {$regex : '(' + search + '\\S+|' + search + ')'};        
     //sort user by rank?    
     return {
         isReady : subscription.ready(),
