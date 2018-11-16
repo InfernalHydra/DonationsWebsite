@@ -69,6 +69,15 @@ Meteor.methods({
         }
         Bids.update({_id : donationID}, {$set : {status : "Fufilled"}});
     },
+    'bids.reject'(donationID)
+    {
+        check(donationID, String);
+        if(Meteor.user().role !== 1)
+        {
+            throw new Meteor.Error('not-authorized', "You are not an administrator");
+        }
+        Bids.update({_id : donationID}, {$set : {status : "Rejected"}});
+    },
     'bids.getAggregate'()
     {
         let pipeline = [
