@@ -25,6 +25,10 @@ import Display from './admin/Display'
 
 
 const muiTheme = createMuiTheme({
+    typography: {        
+        fontFamily: "'Barlow Condensed', sans-serif",
+        textTransform: "none"
+    },
     palette: {
       primary: {
           main: '#ef5350',
@@ -185,7 +189,7 @@ class App extends Component
                         {this.rightDrawer()}
                     </SwipeableDrawer>
 
-                    <div id = "main-content" style = {{paddingTop : '50px'}}>
+                    <div id = "main-content" style = {{paddingTop : '50px', fontFamily : "'Barlow Condensed', sans-serif"}}>
                         <Switch>
                             <Route exact path = '/' component = {Home}/>
                             <Route path = '/donate' component = {Donate}/>
